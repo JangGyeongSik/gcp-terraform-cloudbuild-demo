@@ -1,0 +1,25 @@
+steps:
+  - id: 'terraform init'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    args: ["-c","terraform -chdir=example/ init -upgrade "]
+  - id: 'terraform plan'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    args: ["-c","terraform -chdir=example/ plan  -out=plan.out"]    
+  - id: 'terraform apply'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    args: ["-c","terraform -chdir=example/ apply plan.out"]    
+  # - id: 'tf destroy'
+  #   name: 'hashicorp/terraform:1.0.0'
+  #   entrypoint: sh
+  #   args: ["-c","terraform -chdir=example/ plan -destroy -out=plan.out"]    
+  # - id: 'tf destroy plan'
+  #   name: 'hashicorp/terraform:1.0.0'
+  #   entrypoint: sh
+  #   args: ["-c","terraform -chdir=example/ apply plan.out"]   
+  # - id: 'startup script with GCE'
+  #   name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+  #   entrypoint: 'gcloud'
+  #   args: ["gcloud"]
