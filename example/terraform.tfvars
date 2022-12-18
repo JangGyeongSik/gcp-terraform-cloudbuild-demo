@@ -26,7 +26,7 @@ confidential_instance_config = false
 ## Disks ##
 ###########
 boot_disk = {
-  auto_delete             = false
+  auto_delete             = true 
   device_name             = "gyeongsik-dev"
   disk_encryption_key_raw = null
   image                   = "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20221121"
