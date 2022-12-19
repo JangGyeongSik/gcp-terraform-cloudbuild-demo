@@ -6,14 +6,20 @@ steps:
     name: 'hashicorp/terraform:1.3.5'
     entrypoint: sh
     args: ["-c","terraform -chdir=example/ init -upgrade "]
+    waitFor:
+      - "terraform init"
   - id: 'terraform plan'
     name: 'hashicorp/terraform:1.3.5'
     entrypoint: sh
-    args: ["-c","terraform -chdir=example/ plan  -out=plan.out"]    
+    args: ["-c","terraform -chdir=example/ plan  -out=plan.out"]  
+    waitFor:
+      - "terraform plan"
   - id: 'terraform apply'
     name: 'hashicorp/terraform:1.3.5'
     entrypoint: sh
-    args: ["-c","terraform -chdir=example/ apply plan.out"]    
+    args: ["-c","terraform -chdir=example/ apply plan.out"]  
+    waitFor:
+      - "terraform apply"
   # - id: 'tf destroy'
   #   name: 'hashicorp/terraform:1.3.5'
   #   entrypoint: sh
