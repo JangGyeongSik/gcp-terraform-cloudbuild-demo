@@ -10,7 +10,7 @@ steps:
     name: 'hashicorp/terraform:1.3.5'
     entrypoint: sh
     args: ["-c","terraform -chdir=example/ plan  -out=plan.out"]  
-    waitFor: ['-']
+    # waitFor: ['-']
   - id: 'terraform apply'
     name: 'hashicorp/terraform:1.3.5'
     entrypoint: sh
