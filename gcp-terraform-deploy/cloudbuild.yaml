@@ -14,8 +14,7 @@ steps:
   - id: 'terraform apply'
     name: 'hashicorp/terraform:1.3.5'
     entrypoint: sh
-    # args: ["-c","terraform -chdir=example/ apply plan.out"]  
-    args: ["-c","terraform -chdir=example/ apply"]  
+    args: ["-c","terraform -chdir=example/ apply plan.out"]  
   # - id: 'tf destroy'
   #   name: 'hashicorp/terraform:1.3.5'
   #   entrypoint: sh
