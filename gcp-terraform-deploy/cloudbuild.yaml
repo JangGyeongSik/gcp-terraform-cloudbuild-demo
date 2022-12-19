@@ -1,6 +1,6 @@
 ###Cloud Build DEMO YAML
 options:
-  logging: CLOUD_LOGGING_ONLY # GCS_ON LY, CLOUD_LOGGING_ONLY  ( Default two Options)
+  logging: GCS_ONLY # GCS_ON LY, CLOUD_LOGGING_ONLY  ( Default two Options)
 steps:
   - id: 'terraform init'
     name: 'hashicorp/terraform:1.3.5'
