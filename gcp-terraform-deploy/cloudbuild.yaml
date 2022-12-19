@@ -15,14 +15,14 @@ steps:
     name: 'hashicorp/terraform:1.3.5'
     entrypoint: sh
     args: ["-c","terraform -chdir=example/ apply plan.out"]  
-  # - id: 'tf destroy'
-  #   name: 'hashicorp/terraform:1.3.5'
-  #   entrypoint: sh
-  #   args: ["-c","terraform -chdir=example/ plan -destroy -out=plan.out"]    
-  # - id: 'tf destroy plan'
-  #   name: 'hashicorp/terraform:1.3.5'
-  #   entrypoint: sh
-  #   args: ["-c","terraform -chdir=example/ apply plan.out"]   
+  - id: 'tf destroy'
+    name: 'hashicorp/terraform:1.3.5'
+    entrypoint: sh
+    args: ["-c","terraform -chdir=example/ plan -destroy -out=plan.out"]    
+  - id: 'tf destroy plan'
+    name: 'hashicorp/terraform:1.3.5'
+    entrypoint: sh
+    args: ["-c","terraform -chdir=example/ apply plan.out"]   
   # - id: 'startup script with GCE'
   #   name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
   #   entrypoint: 'gcloud'
