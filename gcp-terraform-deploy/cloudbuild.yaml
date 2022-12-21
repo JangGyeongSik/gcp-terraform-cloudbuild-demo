@@ -10,8 +10,6 @@ steps:
     name: 'hashicorp/terraform:1.3.5'
     entrypoint: sh
     args: ["-c","terraform -chdir=example/ plan  -out=plan.out"]  
-  - name: "gcr.io/cloud-builders/gcloud"
-    id: "Create Cloud Build triggers"
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
