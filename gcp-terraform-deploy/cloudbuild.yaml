@@ -12,10 +12,13 @@ steps:
     args: ["-c","terraform -chdir=example/ plan  -out=plan.out"]  
   - name: "gcr.io/cloud-builders/gcloud"
     id: "Create Cloud Build triggers"
-    entrypoint: bash
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
     args:
-    - -exc 
-    - |
+    - '-eEuo'
+    - 'pipefail'
+    - '-c'
+    - |-
       gcloud components install beta
       gcloud beta builds triggers create github --name="${_TRIGGER_NAME}" --repo-owner="${_REPO_OWNER}" --repo-name="${_REPO_NAME}" --branch-pattern="${_BRANCH_PATTERN]" --build-config="${_BUILD_CONFIG}" --service-account="${_SERVICE_ACCOUNT}" --require-approval --include-logs-with-status
   #   name: 'hashicorp/terraform:1.3.5'
