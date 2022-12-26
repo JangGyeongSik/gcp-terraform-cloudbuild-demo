@@ -4,9 +4,11 @@
 create_template = false
 project_id      = "gyeongsik-dev"
 region          = "asia-northeast3"
-instance_name   = "gce-demo-001"
+instance_name   = "demo-gce-001"
 labels = {
-  "env" = "dev"
+  "env" = "dev",
+  "module" = "wt-api",
+  "service" = "chatservice"
 }
 zone                      = "asia-northeast3-c" #기입시 Region + Zone으로 입력
 allow_stopping_for_update = false
@@ -33,7 +35,9 @@ boot_disk = {
   kms_key_self_link       = null
   sha256                  = ""
   labels = {
-    "env" = "dev"
+    "env" = "dev",
+    "module" = "wt-api",
+    "service" = "chatservice"
   }
   size        = 20
   source      = ""

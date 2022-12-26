@@ -1,0 +1,42 @@
+{
+    "variables": {
+        "account_file": "credentials.json"
+    },
+
+   "builders": [
+       {
+           "type": "googlecompute",
+           "project_id": "gyeongsik-dev",
+           "source_image_family": "ubuntu-2004-lts",
+           "disk_size": "30",
+           "machine_type": "e2-medium",
+           "account_file": "credentials.json",
+           "zone": "asia-northeast3-b",
+           "ssh_username": "packer",
+           "image_name": "gyeongsik-web-app-20221226",
+           "image_description": "web app develop by gyeongsik.",
+           "image_storage_locations": ["asia-northeast3"],
+           "image_labels": {
+               "developer": "gyeongsik-jang",
+               "team": "cloud-devops"
+           },
+           "network": "gyeongsik-dev",
+           "subnetwork": "gyeongsik-dev",
+           "service_account_email": "gyeongsik-tf-svc@gyeongsik-dev.iam.gserviceaccount.com",
+           "tags": ["iapssh","fw-dev-http"],
+           "use_internal_ip" : false,
+           "use_iap": true,
+           "scopes":["https://www.googleapis.com/auth/cloud-platform"]
+       }
+   ],
+   "provisioners": [
+       {
+           "type": "shell",
+           "inline": ["sudo mkdir -p /var/www/html"]
+       },
+       {
+           "type": "shell",
+           "script": "deploy.sh"
+       }
+   ]
+}
