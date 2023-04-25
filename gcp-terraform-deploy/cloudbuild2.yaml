@@ -2,6 +2,15 @@
 options:
   logging: LOGGING_UNSPECIFIED # LOGGING_UNSPECIFIED, NONE, GCS_ONLY, CLOUD_LOGGING_ONLY  ( Default two Options )
 steps:
+  - id: 'Packer Image Create '
+    name: 'gcr.io/${PROJECT_ID/packer'
+    args:
+    - build
+    - -var
+    - image_name=${IMAGE_NAME}
+    - -var
+    - project_id=${PROJECT_ID}
+    - packer.json
   - id: 'terraform init'
     name: 'hashicorp/terraform:1.3.5'
     entrypoint: sh
@@ -15,7 +24,7 @@ steps:
     entrypoint: sh
     args: ["-c","terraform -chdir=example/ plan -destroy -out=plan.out"]    
   - id: 'tf destroy plan'
-    name: 'hashicorp/terraform:1.3.5'
+    name: 'hashicorp/terraform:1.3.5' 
     entrypoint: sh
     args: ["-c","terraform -chdir=example/ apply plan.out"]   
   # - id: 'startup script with GCE'
@@ -23,4 +32,13 @@ steps:
   #   entrypoint: 'gcloud'
   #   args: ["gcloud"]
   # echo "2022-12-21 18:58 PM" >> 
-
+substitutions:
+  _PROJECT_ID : gyeongsik-dev
+  _IMAGE_NAME :  
+  _BRANCH_PATTERN: ^.*
+  _REPO_TYPE: GitHub   #Github, BitBucket
+  _REPO_OWNER: JangGyeongSik #armakuni 
+  _REPO_NAME: gcp-terraform-cloudbuild-demo
+  _TRIGGER_NAME: gcp-terraform-cloud-build-2
+  _BUILD_CONFIG: /gcp-terraform-deploy/cloudbuild2.yaml
+  _SERVICE_ACCOUNT : projects/gyeongsik-dev/serviceAccounts/gyeongsik-tf-svc@gyeongsik-dev.iam.gserviceaccount.com
