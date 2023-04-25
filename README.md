@@ -32,10 +32,14 @@ Cloud Build Configuration
 1.  ### As-Is Architecture  
     <img src="./image/as-is-architecture.png" width="750px" height="350px" title="cloudbuild_architecture"/>
 2.  ### To-Be Architecture
-    1.  Packer를 활용하여 Image 생성 후 Instance & Instance Template 생성(1안)      
-    <img src="./image/to-be-architecture01.png" width="750px" height="350px" title="cloudbuild_architecture"/>       
-    2.  Packer를 사용하지 않고, Golden Image를 통해 Instance & Instance Template 생성(2안)          
-    <img src="./image/to-be-architecture02.png" width="750px" height="350px" title="cloudbuild_architecture"/>  
+    
+    1.  Packer를 활용하여 Image 생성 후 Instance & Instance Template 생성
+        <img src="./image/to-be-architecture01.png" width="750px" height="350px" title="cloudbuild_architecture"/>      
+    
+
+
+    2.  Packer를 사용하지 않고, Golden Image를 통해 Instance & Instance Template 생성 
+        <img src="./image/to-be-architecture02.png" width="750px" height="350px" title="cloudbuild_architecture"/>  
         
 3.  ### Options for creating Cloud Builds
     <img src="./image/cloudbuild_options.png" width="500px" title="cloudbuild_options"/>
