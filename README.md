@@ -32,32 +32,32 @@ Cloud Build Configuration
 1.  ### As-Is Architecture  
     <img src="./image/as-is-architecture.png" width="750px" height="350px" title="cloudbuild_architecture"/>
 2.  ### To-Be Architecture
-    1.  Packer를 활용하여 Image 생성 후 Instance & Instance Template 생성(1안)  
-    <img src="./image/to-be-architecture01.png" width="750px" height="350px" title="cloudbuild_architecture"/>
-    2.  Packer를 사용하지 않고, Golden Image를 통해 Instance & Instance Template 생성(2안)  
-    <img src="./image/to-be-architecture02.png" width="750px" height="350px" title="cloudbuild_architecture"/>
+    1.  Packer를 활용하여 Image 생성 후 Instance & Instance Template 생성(1안)      
+    <img src="./image/to-be-architecture01.png" width="750px" height="350px" title="cloudbuild_architecture"/>       
+    2.  Packer를 사용하지 않고, Golden Image를 통해 Instance & Instance Template 생성(2안)          
+    <img src="./image/to-be-architecture02.png" width="750px" height="350px" title="cloudbuild_architecture"/>  
         
 3.  ### Options for creating Cloud Builds
     <img src="./image/cloudbuild_options.png" width="500px" title="cloudbuild_options"/>
 
-        1.  Event(Trigger) Options
-            -  Repository 기반 Event
-                1.  Push to a Branch
-                    1.  Branch에 Push를 했을 경우
-                2.  Push new tag
-                    1.  새로운 Tag를 붙인 상태에서 Push를 했을 경우
-                3.  Pull Request
-                    1.  해당 Repository(GitHub,Bitbucket,Gitlab)에 PR을 요청했을 때
-                    2.  **Source Repository에서는 사용 불가능**
-             - Response 기반 Event
-                1.  Manaul Invocation
-                    1.  Build Trigger를 수동으로 호출하고 싶은 경우
-                2.  Pub/Sub Message
-                    1.  Pub/Sub Message를 이용하여 Trigger를 생성시키고 싶은 경우
-                3.  Webhook Event
-                    1.  WebHook Event 발생시 Trigger를 생성시키고 싶은 경우
-        2.  Filter를 통해 Build Trigger의 작동을 묵시할 수 있는 옵션도 glob 형태로 제공
-            1.  상기 이미지 참고(Included, Ignored)
+    1. Event(Trigger) Options
+        1. Repository 기반 Event
+            1.  Push to a Branch
+                1.  Branch에 Push를 했을 경우
+            2.  Push new tag
+                1.  새로운 Tag를 붙인 상태에서 Push를 했을 경우
+            3.  Pull Request
+                1.  해당 Repository(GitHub,Bitbucket,Gitlab)에 PR을 요청했을 때
+                2.  **Source Repository에서는 사용 불가능**
+        2. Response 기반 Event
+            1.  Manaul Invocation
+                1.  Build Trigger를 수동으로 호출하고 싶은 경우
+            2.  Pub/Sub Message
+                1.  Pub/Sub Message를 이용하여 Trigger를 생성시키고 싶은 경우
+            3.  Webhook Event
+                1.  WebHook Event 발생시 Trigger를 생성시키고 싶은 경우
+    2.  Filter를 통해 Build Trigger의 작동을 묵시할 수 있는 옵션도 glob 형태로 제공
+        1.  상기 이미지 참고(Included, Ignored)
 
 2.  ### Git Hub App 연동
     1.  Connect Repository
