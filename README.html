@@ -1,0 +1,374 @@
+<hr/>
+<p>
+  <ac:structured-macro ac:macro-id="9229ec3f-5177-49e1-a588-fd76e101fda5" ac:name="toc" ac:schema-version="1"/>
+</p>
+<hr/>
+<h2>What is Cloud Build?</h2>
+<p>Cloud Build는 구축, 테스트, 배포를 위한 CI/CD 플랫폼으로, Server를 사전에 Provisioning 할 필요가 없으며 파이프라인을 생성하여 배포를 자동화합니다. <br/>Cloud Build를 사용하면 Serverless 환경의 배포 관련 효율성을 높힐수 있습니다.</p>
+<hr/>
+<h2>Required Permissions and API Enforcement</h2>
+<ol>
+  <li>
+    <h3>Enable APIs</h3>
+    <ol>
+      <li>
+        <p>Cloud Function, Cloud Logging, Cloud Storage API</p>
+      </li>
+      <li>
+        <p>Compute Engine, Cloud Pub/Sub, Cloud Build API</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <h3>Service Account Permissions</h3>
+    <ol>
+      <li>
+        <p>Compute,Cloud Functions,Pub/Sub Admin</p>
+      </li>
+      <li>
+        <p>ServiceAccountTokenCreator</p>
+      </li>
+      <li>
+        <p>Cloud Build Editor</p>
+      </li>
+      <li>
+        <p>Logs Viewer, Writer</p>
+      </li>
+      <li>
+        <p>Viewer(Basic) </p>
+      </li>
+    </ol>
+  </li>
+</ol>
+<hr/>
+<h2>Cloud Build Configuration</h2>
+<ol>
+  <li>
+    <h3>As-Is Architecture<br/>
+      <ac:image ac:border="true" ac:width="1000">
+        <ri:attachment ri:filename="image2022-12-20_0-24-21.png"/>
+      </ac:image>
+    </h3>
+  </li>
+  <li>
+    <h3>To-Be Architecture</h3>
+    <ol>
+      <li>Packer를 활용하여 Image 생성 후 Instance &amp; Instance Template 생성(1안)<br/>
+        <ac:image ac:border="true" ac:width="1200">
+          <ri:attachment ri:filename="image2022-12-20_19-6-26.png"/>
+        </ac:image>
+      </li>
+      <li>Packer를 사용하지 않고, Golden Image를 통해 Instance &amp; Instance Template 생성(2안)<br/>
+        <ac:image ac:border="true" ac:width="1200">
+          <ri:attachment ri:filename="image2022-12-21_0-41-9.png"/>
+        </ac:image>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <h3>Options for creating cloud builds</h3>
+    <h3>
+      <ac:image ac:border="true" ac:height="902" ac:width="500">
+        <ri:attachment ri:filename="image2022-12-18_18-51-59.png"/>
+      </ac:image>
+    </h3>
+  </li>
+</ol>
+<p>
+  <br/>
+</p>
+<ol>
+  <li style="list-style-type: none;background-image: none;">
+    <ol>
+      <li>Event(Trigger) Options<ol>
+          <li>Repository 기반 Event<ol>
+              <li>Push to a Branch<ol>
+                  <li>Branch에 Push를 했을 경우</li>
+                </ol>
+              </li>
+              <li>Push new tag<ol>
+                  <li>새로운 Tag를 붙인 상태에서 Push를 했을 경우</li>
+                </ol>
+              </li>
+              <li>Pull Request<ol>
+                  <li>해당 Repository(GitHub,Bitbucket,Gitlab)에 PR을 요청했을 때</li>
+                  <li>
+                    <strong>Source Repository에서는 사용 불가능</strong>
+                  </li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li>Response 기반 Event<ol>
+              <li>Manaul Invocation<ol>
+                  <li>Build Trigger를 수동으로 호출하고 싶은 경우</li>
+                </ol>
+              </li>
+              <li>Pub/Sub Message<ol>
+                  <li>Pub/Sub Message를 이용하여 Trigger를 생성시키고 싶은 경우</li>
+                </ol>
+              </li>
+              <li>Webhook Event<ol>
+                  <li>WebHook Event 발생시 Trigger를 생성시키고 싶은 경우</li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li>Filter를 통해 Build Trigger의 작동을 묵시할 수 있는 옵션도 glob 형태로 제공<ol>
+          <li>상기 이미지 참고(Included, Ignored)</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <h3>Git Hub App 연동</h3>
+    <ol>
+      <li>
+        <p>Connect Repository</p>
+        <h3>
+          <ac:image ac:border="true" ac:width="500">
+            <ri:attachment ri:filename="image2022-12-18_18-52-37.png"/>
+          </ac:image>
+        </h3>
+      </li>
+      <li>Authenticate → Select Repository<br/>
+        <ac:image ac:border="true" ac:width="500">
+          <ri:attachment ri:filename="image2022-12-18_18-52-59.png"/>
+        </ac:image>
+        <ol>
+          <li>GitHub 콘텐츠를 기반으로 GCP Project에서의 권한을 GitHub App에게 허용해주는 옵션</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <h3>Configuration</h3>
+    <h3>
+      <ac:image ac:border="true" ac:height="839" ac:width="500">
+        <ri:attachment ri:filename="image2022-12-18_18-56-23.png"/>
+      </ac:image>
+    </h3>
+    <ol>
+      <li>
+        <p>Type</p>
+        <ol>
+          <li>
+            <p>Autodetected</p>
+            <ol>
+              <li>
+                <p>Repository에서 cloudbuild yaml을 자동으로 찾아주는 옵션</p>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <p>
+              <strong>Cloud Build Configuration File (yaml or json)</strong>
+            </p>
+            <ol>
+              <li>
+                <p>Build Trigger 관련해서 yaml or json을 수동으로 설정<span style="letter-spacing: 0.0px;">
+                    <br/>
+                  </span>
+                </p>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <p>
+              <span style="letter-spacing: 0.0px;">DockerFile<br/>
+                <ac:image ac:border="true" ac:width="450">
+                  <ri:attachment ri:filename="image2022-12-18_18-57-27.png"/>
+                </ac:image>
+              </span>
+            </p>
+            <ol>
+              <li>
+                <p>DockerFile을 사용하여 Build Image 설정 가능</p>
+              </li>
+              <li>
+                <p>Trigger가 될 Repository의 DockerFile Direcoty 및 Name 입력</p>
+              </li>
+              <li>
+                <p>Image Name의 경우, 아래 Variable을 제공</p>
+                <ol>
+                  <li>
+                    <p>Supported variables</p>
+                    <ol>
+                      <li>
+                        <p>$PROJECT_ID, $REPO_NAME, $BRANCH_NAME, $TAG_NAME, $COMMIT_SHA, $SHORT_SHA</p>
+                      </li>
+                    </ol>
+                  </li>
+                </ol>
+              </li>
+              <li>
+                <p>Timeout은 Default는 10분으로 명시 되어있으며, 수정하여 제한시간을 설정 가능 <strong>( max: 86400sec )</strong>
+                  <span style="letter-spacing: 0.0px;">
+                    <br/>
+                  </span>
+                </p>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <p>Buildpacks</p>
+            <h3>
+              <ac:image ac:border="true" ac:width="450">
+                <ri:attachment ri:filename="image2022-12-18_18-58-33.png"/>
+              </ac:image>
+            </h3>
+            <ol>
+              <li>
+                <p>Buildpacks도 DockerFile과 유사하나, Builder image 및 환경 변수를 별도로 설정할수 있는 기능이 있습니다. </p>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <h3>Advanced</h3>
+    <ol>
+      <li>
+        <p>대체 변수(Substitution variables)</p>
+        <ol>
+          <li>
+            <p>다른 변수값으로 cloudbuild yaml을 재사용할 수 있습니다.</p>
+          </li>
+          <li>
+            <p>변수에 대한 내용은 첨부 드리는 <a href="https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values?_ga=2.145044212.-1554764575.1670140601">링크</a>를 참고하시면 될 것 같습니다.</p>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <p>승인(Approval)</p>
+        <ol>
+          <li>
+            <p>Build Trigger가 울렸을때, 허용을 할지 안할지에 대한 절차 관련 옵션입니다.</p>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <p>Build Logs</p>
+        <ol>
+          <li>
+            <p>Build Log는 해당 Repository에 대한 읽기 권한이 있는 모든 GitHub User에게 표시되는 옵션입니다.</p>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <p>Service Account</p>
+        <ol>
+          <li>
+            <p>Trigger를 호출할때 사용할 Service Account를 선택하는 옵션입니다.</p>
+          </li>
+          <li>
+            <p>Service Account를 선택하지 않을 경우, Default Cloud Build Service Account가 사용됩니다.</p>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+<hr/>
+<h2>Result</h2>
+<ol>
+  <li>
+    <h3>GitHub(Terraform Module &amp; Desginated Directory)<br/>
+      <ac:image ac:width="700">
+        <ri:attachment ri:filename="image2022-12-18_19-1-0.png"/>
+      </ac:image>
+    </h3>
+    <ol>
+      <li>Private Repo로 작성되었으며, Bitbucket에 별도로 배포하여 공유 드릴예정입니다.</li>
+      <li>
+        <p>cloudbuild.yaml</p>
+        <ac:structured-macro ac:macro-id="060f781e-830d-4bbe-8413-a59c11f2d0aa" ac:name="code" ac:schema-version="1">
+          <ac:plain-text-body><![CDATA[###Cloud Build DEMO YAML
+options:
+  logging: CLOUD_LOGGING_ONLY # GCS_ONLY, CLOUD_LOGGING_ONLY  ( Default two Options)
+steps:
+  - id: 'terraform init'
+    name: 'hashicorp/terraform:1.3.5'
+    entrypoint: sh
+    args: ["-c","terraform -chdir=example/ init -upgrade "]
+  - id: 'terraform plan'
+    name: 'hashicorp/terraform:1.3.5'
+    entrypoint: sh
+    args: ["-c","terraform -chdir=example/ plan  -out=plan.out"]    
+  - id: 'terraform apply'
+    name: 'hashicorp/terraform:1.3.5'
+    entrypoint: sh
+    args: ["-c","terraform -chdir=example/ apply plan.out"]    
+  # - id: 'tf destroy'
+  #   name: 'hashicorp/terraform:1.3.5'
+  #   entrypoint: sh
+  #   args: ["-c","terraform -chdir=example/ plan -destroy -out=plan.out"]    
+  # - id: 'tf destroy plan'
+  #   name: 'hashicorp/terraform:1.3.5'
+  #   entrypoint: sh
+  #   args: ["-c","terraform -chdir=example/ apply plan.out"]   ]]></ac:plain-text-body>
+        </ac:structured-macro>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <h3>GitHub Repo에 cloudbuild.yaml Push </h3>
+    <ol>
+      <li>
+        <p>Access Approval이 활성화 되어 있어, 아래와 같이 승인 절차 진행</p>
+        <h3>
+          <ac:image ac:border="true" ac:width="1000">
+            <ri:attachment ri:filename="image2022-12-18_19-3-30.png"/>
+          </ac:image>
+        </h3>
+      </li>
+      <li>
+        <p>승인 이후 cloudbuild.yaml에 명시한 대로 Terraform Command 진행</p>
+        <ol>
+          <li>
+            <p>Cloud Build Logs</p>
+            <h3>
+              <ac:image ac:border="true" ac:height="516" ac:width="1000">
+                <ri:attachment ri:filename="image2022-12-18_19-5-9.png"/>
+              </ac:image>
+            </h3>
+          </li>
+          <li>
+            <p>Compute Engine List</p>
+            <h3>
+              <ac:image ac:border="true" ac:width="2000">
+                <ri:attachment ri:filename="image2022-12-18_19-5-31.png"/>
+              </ac:image>
+            </h3>
+            <ol>
+              <li>
+                <p>Terraform.tfvars를 기준으로 하는 GCE 1대가 배포된 것을 위와 같이 확인 가능</p>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+<hr/>
+<h2>Reference</h2>
+<ul>
+  <li>
+    <a href="https://cloud.google.com/build/docs/overview?hl=ko">Cloud Build Overview</a>
+  </li>
+  <li>
+    <a href="https://alonge.medium.com/how-to-setup-slack-integration-for-google-cloud-build-using-cloud-functions-e357b580c7a1">Slack Integration with Cloud Build</a>
+  </li>
+  <li>
+    <a href="https://engineering.sada.com/using-google-cloud-build-to-execute-a-terraform-script-7dc818ccecdf">How to use Terraform with Cloud Build</a>
+  </li>
+</ul>
+<hr/>
+<p>
+  <strong>END</strong>
+</p>
