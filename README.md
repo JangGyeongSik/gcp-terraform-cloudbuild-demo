@@ -2,7 +2,7 @@
 What is Cloud Build?
 --------------------
 
-Cloud Build는 구축, 테스트, 배포를 위한 CI/CD 플랫폼입니다.    
+Cloud Build는 구축, 테스트, 배포를 위한 CI/CD 서비스 입니다.    
 Server를 사전에 Provisioning 할 필요가 없으며 파이프라인을 생성하여 배포를 자동화합니다.    
 Cloud Build를 사용하면 Serverless 환경의 배포 관련 효율성을 높힐수 있습니다.  
 
